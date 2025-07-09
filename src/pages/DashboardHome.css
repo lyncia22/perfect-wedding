@@ -1,0 +1,104 @@
+/* Dashboard wrapper */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+/* Hero section */
+.dashboard__hero {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 550px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.dashboard__hero-text {
+  position: absolute;
+  top: 50%;
+  left: 2rem;
+  transform: translateY(-50%);
+  color: white;
+}
+
+.dashboard__hero-text h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard__hero-text p {
+  font-size: 1.1rem;
+}
+
+/* Cards section */
+.dashboard__cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard__card {
+  flex: 1;
+  min-width: 150px;
+  background-color: #fef3f7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__card h2 {
+  color: #ec4899;
+  margin-bottom: 0.5rem;
+}
+
+/* Task Progress */
+.dashboard__progress {
+  background-color: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background-color: #ec4899;
+  color: white;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 20px;
+  transition: width 0.3s ease;
+}
+
+/* Gallery */
+.dashboard__gallery {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard__gallery img {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

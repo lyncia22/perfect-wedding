@@ -1,25 +1,36 @@
-// import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-// import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// import Login from "./pages/Login";
-// import Signup from "./pages/Signup";
-// import Dashboard from "./pages/Dashboard";
-// import GuestList from "./pages/GuestList";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
-// function App() {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
+// Dashboard components
+import DashboardLayout from "./components/DashboardLayout";
+import DashboardHome from "./pages/DashboardHome";
+import WeddingDetails from "./pages/WeddingDetails";
+import GuestList from "./pages/GuestList";
+import Tasks from "./pages/Tasks";
+import Vendors from "./pages/Vendors";
 
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-//         <Route path="/signup" element={<Signup />} />
-//         <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
-//         <Route path="/guest-list" element={isAuthenticated ? <GuestList /> : <Navigate to="/login" />} />
-//         <Route path="*" element={<Navigate to="/login" />} />
-//       </Routes>
-//     </Router>
-//   );
-// }
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-// export default App;
+        {/* Dashboard routes */}
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<DashboardHome />} />
+          <Route path="wedding-details" element={<WeddingDetails />} />
+          <Route path="guest-list" element={<GuestList />} />
+          <Route path="tasks" element={<Tasks />} />
+          <Route path="vendors" element={<Vendors />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
