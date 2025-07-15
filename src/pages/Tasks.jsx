@@ -1,28 +1,16 @@
 import "./Tasks.css";
 import { useState } from "react";
+import { useTasks } from "../context/TaskContext";
 
 export default function Tasks() {
   const [taskName, setTaskName] = useState("");
-  const [tasks, setTasks] = useState([]);
+  const { tasks, addTask, toggleTask, deleteTask } = useTasks();
 
   const handleAddTask = (e) => {
     e.preventDefault();
     if (!taskName.trim()) return;
-    const newTask = { id: Date.now(), name: taskName, completed: false };
-    setTasks([newTask, ...tasks]);
+    addTask(taskName);
     setTaskName("");
-  };
-
-  const toggleTask = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   return (

@@ -1,0 +1,142 @@
+.manage-weddings {
+  margin-left: 230px;
+  padding: 2rem;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+.manage-weddings h1 {
+  font-size: 2rem;
+  color: #5a2a83;
+  margin-bottom: 0.5rem;
+}
+
+.manage-weddings p {
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+.wedding-table-wrapper {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(90, 42, 131, 0.1);
+}
+
+.wedding-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.wedding-table th,
+.wedding-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.wedding-table th {
+  background-color: #f6f1fb;
+  color: #5a2a83;
+  font-weight: 600;
+}
+
+.wedding-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.wedding-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Actions */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.view-btn,
+.delete-btn {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.view-btn {
+  background-color: #5a2a83;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #3f1d59;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.modal h2 {
+  color: #5a2a83;
+}
+
+.modal p {
+  color: #555;
+  margin: 0.2rem 0;
+}
+
+.modal button {
+  background-color: #5a2a83;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

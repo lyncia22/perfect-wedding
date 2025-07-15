@@ -1,0 +1,26 @@
+.vendor-messages {
+  padding: 2rem;
+  color: #333;
+}
+
+.vendor-messages h1 {
+  color: #5a2a83;
+  margin-bottom: 1rem;
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.message-item {
+  background: #f6f1fb;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(90, 42, 131, 0.1);
+}
+
+.message-item strong {
+  color: #5a2a83;
+}

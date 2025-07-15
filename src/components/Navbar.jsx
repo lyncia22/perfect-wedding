@@ -1,15 +1,15 @@
-export default function Navbar() {
+import "./Navbar.css";
+
+export default function Navbar({ toggleSidebar, isSidebarOpen }) {
   return (
-    <header
-      style={{
-        padding: "1rem 2rem",
-        borderBottom: "1px solid #ddd",
-        backgroundColor: "#fff",
-        fontWeight: "600",
-        fontSize: "1.25rem",
-      }}
-    >
-      Hello, Planner! 💍
-    </header>
+    <nav className="navbar">
+      {/* Show menu button only when sidebar is closed */}
+      {!isSidebarOpen && (
+        <button className="menu-btn" onClick={toggleSidebar}>
+          ☰
+        </button>
+      )}
+      <h1 className="navbar-title">Wedding Planner Dashboard</h1>
+    </nav>
   );
 }

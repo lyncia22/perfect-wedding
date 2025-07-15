@@ -1,3 +1,43 @@
+.wedding-details {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  min-height: 500px;
+}
+
+.wedding-details__image {
+  flex: 1 1 400px;
+  max-width: 400px;
+  max-height: 450px;
+  /* overflow: hidden; */
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(90, 42, 131, 0.2);
+}
+
+.wedding-details__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 15px;
+}
+
+.wedding-details__content {
+  flex: 2 1 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.wedding-details__content h1 {
+  font-size: 2rem;
+  color: #5a2a83;
+}
+
 .wedding-details__form {
   display: flex;
   flex-direction: column;
@@ -10,29 +50,52 @@
 }
 
 .form-group label {
-  margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #333;
+  color: #4a3f67;
+  margin-bottom: 0.3rem;
 }
 
-.form-group input {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+.form-group input,
+.form-group select {
+  padding: 0.6rem 1rem;
   font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.3s;
 }
 
-.submit-btn {
-  padding: 0.75rem 1.5rem;
-  background-color: #ec4899;
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #5a2a83;
+  outline: none;
+  box-shadow: 0 0 8px rgba(90, 42, 131, 0.3);
+}
+
+.submit-btn,
+.edit-btn {
+  padding: 0.7rem 1.5rem;
+  background-color: #5a2a83;
   color: #fff;
-  font-weight: 600;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  width: fit-content;
+  transition: background-color 0.3s ease;
 }
 
-.submit-btn:hover {
-  background-color: #db2777;
+.submit-btn:hover,
+.edit-btn:hover {
+  background-color: #3f1d59;
+}
+
+.wedding-details__preview p {
+  margin: 0.5rem 0;
+}
+
+/* Fix autofill yellow */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset;
+  -webkit-text-fill-color: #333 !important;
 }

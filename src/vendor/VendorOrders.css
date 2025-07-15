@@ -1,0 +1,26 @@
+.vendor-orders {
+  padding: 2rem;
+  color: #333;
+}
+
+.vendor-orders h1 {
+  color: #5a2a83;
+  margin-bottom: 1rem;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.orders-table th {
+  background-color: #f6f1fb;
+  color: #5a2a83;
+}

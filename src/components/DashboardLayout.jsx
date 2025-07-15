@@ -1,21 +1,26 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import { Outlet } from "react-router-dom";
+import "./DashboardLayout.css";
 
 export default function DashboardLayout() {
-  const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <Sidebar />
+    <div className="dashboard-layout">
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <Navbar />
-        <main style={{ flex: 1, overflowY: "auto", padding: "1rem" }}>
+      <div className={`dashboard-main ${isSidebarOpen ? "sidebar-open" : ""}`}>
+        <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+        <main className="dashboard-content">
           <Outlet />
         </main>
       </div>
     </div>
   );
 }
-   
