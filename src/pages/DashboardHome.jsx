@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaUserFriends, FaTasks, FaHandshake } from "react-icons/fa";
 import "./DashboardHome.css";
 
@@ -12,6 +12,7 @@ export default function DashboardHome() {
     { id: 3, name: "Hire photographer", completed: false },
   ]);
   const [vendors, setVendors] = useState(3);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const saved = localStorage.getItem("weddingDetails");
@@ -21,7 +22,8 @@ export default function DashboardHome() {
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.completed).length;
   const pendingTasks = totalTasks - completedTasks;
-  const taskProgress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+  const taskProgress =
+    totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
   return (
     <div className="dashboard">
@@ -57,7 +59,9 @@ export default function DashboardHome() {
             <FaTasks className="card-icon" />
             <h2>Tasks</h2>
             <p>{pendingTasks} pending</p>
-            {pendingTasks > 0 && <span className="card-badge">{pendingTasks}</span>}
+            {pendingTasks > 0 && (
+              <span className="card-badge">{pendingTasks}</span>
+            )}
           </div>
         </NavLink>
 
@@ -68,14 +72,13 @@ export default function DashboardHome() {
             <p>{vendors} connected</p>
           </div>
         </NavLink>
-        <NavLink to="/dashboard/budget" className="dashboard__card-link">
-  <div className="dashboard__card">
-    
-    <h2>Budget</h2>
-    <p>Track your expenses</p>
-  </div>
-</NavLink>
 
+        <NavLink to="/dashboard/budget" className="dashboard__card-link">
+          <div className="dashboard__card">
+            <h2>Budget</h2>
+            <p>Track your expenses</p>
+          </div>
+        </NavLink>
       </div>
 
       {/* Progress Bar */}
@@ -93,7 +96,7 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* Photo Gallery */}
+      {/* Photo Gallery with Button */}
       <div className="dashboard__gallery">
         <img
           src="https://i.pinimg.com/736x/0d/df/4c/0ddf4c8eaee0451f6cd9379f3a01443d.jpg"
@@ -107,6 +110,13 @@ export default function DashboardHome() {
           src="https://i.pinimg.com/736x/6b/e9/29/6be929204d84a9357e89ed87fc077537.jpg"
           alt="Gallery 3"
         />
+
+        <button
+          className="inspiration-btn"
+          onClick={() => navigate("/dashboard/inspiration")}
+        >
+          View More Inspiration →
+        </button>
       </div>
     </div>
   );

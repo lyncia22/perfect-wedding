@@ -15,6 +15,8 @@ import GuestList from "./pages/GuestList";
 import Tasks from "./pages/Tasks";
 import Vendors from "./pages/Vendors";
 import Budget from "./pages/Budget";
+import InspirationGallery from "./pages/InspirationGallery";
+
 
 
 // Admin Dashboard components
@@ -52,6 +54,7 @@ export default function App() {
           <Route path="tasks" element={<Tasks />} />
           <Route path="vendors" element={<Vendors />} />
           <Route path="budget" element={<Budget />} />
+          <Route path="inspiration" element={<InspirationGallery />} />
 
         </Route>
 
