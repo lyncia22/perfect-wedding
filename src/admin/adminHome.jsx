@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "./AdminHome.css";
+import "./adminHome.css";
 import { FaUsers, FaStore, FaChartLine } from "react-icons/fa";
 
 export default function AdminHome() {
