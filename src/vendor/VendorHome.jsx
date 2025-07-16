@@ -1,4 +1,4 @@
-import "./vendorHome.css";
+import "./VendorHome.css";
 import { FaClipboardList, FaComments, FaTools } from "react-icons/fa";
 
 export default function VendorHome() {
