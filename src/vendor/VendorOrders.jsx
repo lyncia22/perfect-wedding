@@ -1,4 +1,4 @@
-import "./vendorOrders.css";
+import "./VendorOrders.css";
 import { useState } from "react";
 
 export default function VendorOrders() {
