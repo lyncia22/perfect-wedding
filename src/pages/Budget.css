@@ -1,0 +1,120 @@
+.budget {
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+  min-height: 100vh;
+}
+
+.budget h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.budget-summary {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.budget-summary p {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.progress-bar {
+  background: #f0f0f0;
+  height: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: #6A5ACD; /* purple */
+  height: 10px;
+  width: 0;
+  transition: width 0.4s ease;
+}
+
+.budget-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.budget-form input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.budget-form button {
+  background: #6A5ACD;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.budget-form button:hover {
+  background: #5846b2;
+}
+
+.expense-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.expense-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f9f9f9;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.expense-list li span {
+  font-weight: 500;
+}
+
+.expense-list button {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.expense-list button:hover {
+  transform: scale(1.1);
+}
+
+.budget-chart {
+  margin-top: 30px;
+  text-align: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.chart-wrapper {
+  width: 350px;  /* medium width */
+  height: 350px; /* medium height */
+  margin: 0 auto; /* center the chart */
+}

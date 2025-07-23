@@ -1,0 +1,81 @@
+.vendor-home {
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vendor-home h1 {
+  color: #5a2a83;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+
+.vendor-home p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.vendor-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.vendor-card {
+  flex: 1 1 250px;
+  background: #f6f1fb;
+  border-radius: 15px;
+  padding: 1.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 12px rgba(90, 42, 131, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+  min-width: 220px;
+}
+
+.vendor-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(90, 42, 131, 0.35);
+}
+
+.vendor-card-icon {
+  font-size: 3rem;
+  color: #5a2a83;
+  flex-shrink: 0;
+}
+
+.vendor-card h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #3f1d59;
+  font-weight: 700;
+}
+
+.vendor-card p {
+  margin: 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+.vendor-welcome-image {
+  max-width: 100%;
+  margin-top: 2rem;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(90, 42, 131, 0.1);
+}
+
+.vendor-welcome-image img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+}

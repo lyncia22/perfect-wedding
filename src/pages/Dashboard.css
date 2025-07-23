@@ -1,0 +1,42 @@
+.dashboard-content {
+  padding: 2rem;
+  background-color: #fefefe; /* subtle off-white */
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  overflow-y: auto;
+}
+
+.dashboard-content h1,
+.dashboard-content h2,
+.dashboard-content h3 {
+  color: #ec4899; /* pink-ish accent */
+  margin-bottom: 1rem;
+}
+
+.dashboard-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-content button {
+  background-color: #ec4899;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-content button:hover {
+  background-color: #db2777;
+}

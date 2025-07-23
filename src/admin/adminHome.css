@@ -1,0 +1,129 @@
+.admin-home {
+  margin-left: 230px;
+  padding: 2rem;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+.admin-header h1 {
+  font-size: 2.2rem;
+  color: #5a2a83;
+  margin-bottom: 0.3rem;
+}
+
+.admin-header .subtext {
+  color: #777;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.admin-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.admin-card {
+  flex: 1 1 250px;
+  background: #f6f1fb;
+  border-radius: 15px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  box-shadow: 0 4px 12px rgba(90, 42, 131, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.admin-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(90, 42, 131, 0.2);
+}
+
+.admin-icon {
+  font-size: 2.8rem;
+}
+
+.admin-icon.users {
+  color: #6a1b9a;
+}
+
+.admin-icon.vendors {
+  color: #00796b;
+}
+
+.admin-icon.analytics {
+  color: #e65100;
+}
+
+.admin-card-info h2 {
+  margin: 0;
+  font-size: 1.7rem;
+  color: #3f1d59;
+}
+
+.admin-card-info p {
+  margin: 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.admin-welcome-image {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.admin-welcome-image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.admin-card-link {
+  text-decoration: none;
+  color: inherit;
+  flex: 1 1 250px;
+}
+
+.admin-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.admin-card {
+  background: #f6f1fb;
+  border-radius: 15px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 12px rgba(90, 42, 131, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(90, 42, 131, 0.2);
+}
+
+.admin-icon {
+  font-size: 2rem;
+  color: #5a2a83;
+}
+
+.admin-card-info h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #3f1d59;                                            
+}
+
+.admin-card-info p {
+  margin: 0.3rem 0 0;
+  color: #555;
+} 

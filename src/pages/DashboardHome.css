@@ -1,0 +1,196 @@
+.dashboard {
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard__hero {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 20px rgba(90, 42, 131, 0.3);
+}
+
+.dashboard__hero-image {
+  width: 100%;
+  height: 400px; /* bigger height */
+  object-fit: cover;
+  filter: brightness(65%);
+}
+
+.dashboard__hero-text {
+  position: absolute;
+  top: 50%;
+  left: 2rem;
+  transform: translateY(-50%);
+  color: #fff;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.7);
+}
+
+.dashboard__hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.dashboard__hero-text p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.dashboard__cards {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.dashboard__card {
+  flex: 1 1 200px;
+  background: #f6f1fb;
+  border-radius: 15px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(90, 42, 131, 0.15);
+  transition: transform 0.2s ease;
+  position: relative;
+  cursor: pointer; /* show clickable */
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dashboard__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(90, 42, 131, 0.4);
+}
+
+.dashboard__card h2 {
+  margin: 0.5rem 0 1rem;
+  color: #5a2a83;
+}
+
+.dashboard__card p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3f1d59;
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.4rem;
+}
+
+/* Badge for pending items */
+.card-badge {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: #e74c3c;
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  pointer-events: none;
+  user-select: none;
+}
+
+.dashboard__progress {
+  margin-bottom: 2rem;
+}
+
+.dashboard__progress h3 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #5a2a83;
+}
+
+.progress-bar {
+  background: #ddd;
+  border-radius: 12px;
+  height: 24px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  background: #5a2a83;
+  height: 100%;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  line-height: 24px;
+  border-radius: 12px 0 0 12px;
+  transition: width 0.5s ease-in-out;
+}
+
+.dashboard__gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.dashboard__gallery img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(90, 42, 131, 0.2);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.dashboard__gallery img:hover {
+  transform: scale(1.05);
+}
+.card-icon {
+  font-size: 2.5rem;
+  color: #5a2a83;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard__card {
+  background: #f9f4ff;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(90, 42, 131, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.dashboard__card:hover {
+  transform: translateY(-5px);
+}
+
+.card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e74c3c;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+}
+.inspiration-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 25px;
+  background: #5a2a83;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.inspiration-btn:hover {
+  background: #48206b;
+}

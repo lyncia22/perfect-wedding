@@ -1,0 +1,18 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #5a2a83;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+.menu-btn {
+  font-size: 1.8rem;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
