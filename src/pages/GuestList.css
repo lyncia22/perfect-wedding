@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background-color: #fff;
   padding: 2rem;
@@ -20,6 +20,7 @@
 
 .guest-list__content {
   max-width: 500px;
+  flex: 1 1 500px;
 }
 
 .guest-list__content h1 {
@@ -33,6 +34,7 @@
   margin-bottom: 1rem;
   color: #555;
 }
+
 .guest-list__form {
   display: flex;
   flex-direction: column;
@@ -57,6 +59,13 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #ec4899;
 }
 
 .submit-btn {
@@ -68,6 +77,7 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
+  align-self: flex-start;
 }
 
 .submit-btn:hover {
@@ -78,17 +88,53 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
 .guest-item {
   padding: 1rem;
   background-color: #f9fafb;
   border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
+.guest-item strong {
+  font-size: 1.1rem;
+  color: #111;
+}
+
+.guest-contact,
 .guest-note {
   color: #666;
   font-size: 0.9rem;
   margin-top: 0.25rem;
+  margin-left: 0.5rem;
 }
 
+/* Scrollbar for guest list */
+.guest-list__items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.guest-list__items::-webkit-scrollbar-thumb {
+  background-color: #ec4899;
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .guest-list {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .guest-list__content {
+    max-width: 100%;
+  }
+
+  .guest-list__image img {
+    max-width: 100%;
+    border-radius: 6px;
+  }
+}

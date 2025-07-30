@@ -1,22 +1,39 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaUserFriends, FaTasks, FaHandshake } from "react-icons/fa";
+import supabase from "../supabaseClient";
 import "./DashboardHome.css";
 
 export default function DashboardHome() {
   const [weddingDetails, setWeddingDetails] = useState(null);
-  const [guests, setGuests] = useState(50);
+  const [guests, setGuests] = useState(50); // Replace with live guest count if needed
   const [tasks, setTasks] = useState([
     { id: 1, name: "Book the venue", completed: true },
     { id: 2, name: "Send invites", completed: false },
     { id: 3, name: "Hire photographer", completed: false },
   ]);
-  const [vendors, setVendors] = useState(3);
+  const [vendors, setVendors] = useState(3); // Replace with live vendor count if needed
   const navigate = useNavigate();
 
   useEffect(() => {
-    const saved = localStorage.getItem("weddingDetails");
-    if (saved) setWeddingDetails(JSON.parse(saved));
+    const fetchWeddingDetails = async () => {
+      // Replace this with actual logged-in user ID from auth system
+      const userId = "b03adbe9-f22d-4b9e-b7bf-b600e307d142";
+
+      const { data, error } = await supabase
+        .from("wedding_details")
+        .select("*")
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error fetching wedding details:", error.message);
+      } else {
+        setWeddingDetails(data);
+      }
+    };
+
+    fetchWeddingDetails();
   }, []);
 
   const totalTasks = tasks.length;
@@ -36,8 +53,8 @@ export default function DashboardHome() {
         />
         <div className="dashboard__hero-text">
           <h1>
-            {weddingDetails?.coupleNames
-              ? `${weddingDetails.coupleNames}'s Wedding Dashboard`
+            {weddingDetails?.couple_names
+              ? `${weddingDetails.couple_names}'s Wedding Dashboard`
               : "Welcome to Your Wedding Planner"}
           </h1>
           <p>Plan your dream wedding with ease and joy!</p>
@@ -76,7 +93,11 @@ export default function DashboardHome() {
         <NavLink to="/dashboard/budget" className="dashboard__card-link">
           <div className="dashboard__card">
             <h2>Budget</h2>
-            <p>Track your expenses</p>
+            <p>
+              {weddingDetails?.budget
+                ? `$${Number(weddingDetails.budget).toLocaleString()}`
+                : "Track your expenses"}
+            </p>
           </div>
         </NavLink>
       </div>

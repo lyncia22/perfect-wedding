@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import supabase from "../supabaseClient";
 import "./Budget.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -13,20 +14,52 @@ export default function Budget() {
   useEffect(() => {
     const details = JSON.parse(localStorage.getItem("weddingDetails"));
     setWeddingDetails(details);
+
+    const fetchExpenses = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      const { data, error } = await supabase
+        .from("expenses")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (!error) setExpenses(data);
+    };
+
+    fetchExpenses();
   }, []);
 
   const totalBudget = Number(weddingDetails?.budget || 0);
   const totalSpent = expenses.reduce((sum, item) => sum + Number(item.amount), 0);
   const remaining = totalBudget - totalSpent;
 
-  const handleAddExpense = () => {
+  const handleAddExpense = async () => {
     if (!newExpense.name || !newExpense.amount) return;
-    setExpenses([...expenses, newExpense]);
-    setNewExpense({ name: "", amount: "" });
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const { data, error } = await supabase.from("expenses").insert([
+      {
+        user_id: user.id,
+        name: newExpense.name,
+        amount: newExpense.amount,
+      },
+    ]).select();
+
+    if (!error && data) {
+      setExpenses([data[0], ...expenses]);
+      setNewExpense({ name: "", amount: "" });
+    } else {
+      console.error("Add Error:", error.message);
+    }
   };
 
-  const handleDeleteExpense = (index) => {
-    setExpenses(expenses.filter((_, i) => i !== index));
+  const handleDeleteExpense = async (id) => {
+    const { error } = await supabase.from("expenses").delete().eq("id", id);
+    if (!error) {
+      setExpenses(expenses.filter((exp) => exp.id !== id));
+    }
   };
 
   const chartData = {
@@ -34,7 +67,7 @@ export default function Budget() {
     datasets: [
       {
         data: [totalSpent, remaining > 0 ? remaining : 0],
-        backgroundColor: ["#6A5ACD", "#D8D8D8"], // Purple + Gray
+        backgroundColor: ["#6A5ACD", "#D8D8D8"],
         borderWidth: 1,
       },
     ],
@@ -77,10 +110,10 @@ export default function Budget() {
 
       <div className="expense-list">
         <ul>
-          {expenses.map((exp, i) => (
-            <li key={i}>
+          {expenses.map((exp) => (
+            <li key={exp.id}>
               <span>{exp.name} - ${exp.amount}</span>
-              <button onClick={() => handleDeleteExpense(i)}>❌</button>
+              <button onClick={() => handleDeleteExpense(exp.id)}>❌</button>
             </li>
           ))}
         </ul>

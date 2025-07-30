@@ -1,16 +1,82 @@
+import { useEffect, useState } from "react";
+import supabase from "../supabaseClient";
 import "./Tasks.css";
-import { useState } from "react";
-import { useTasks } from "../context/TaskContext";
+
+import { FiCheckSquare, FiSquare, FiTrash2 } from "react-icons/fi";
 
 export default function Tasks() {
   const [taskName, setTaskName] = useState("");
-  const { tasks, addTask, toggleTask, deleteTask } = useTasks();
+  const [tasks, setTasks] = useState([]);
+  const [user, setUser] = useState(null);
 
-  const handleAddTask = (e) => {
+  // Get logged-in user on component mount
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (data?.user) setUser(data.user);
+      else console.error("User not found", error);
+    };
+    getUser();
+  }, []);
+
+  // Fetch tasks whenever user changes (after login)
+  const fetchTasks = async () => {
+    if (!user?.id) return;
+    const { data, error } = await supabase
+      .from("tasks")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+    if (error) console.error("Error fetching tasks:", error.message);
+    else setTasks(data);
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, [user]);
+
+  // Add new task handler
+  const handleAddTask = async (e) => {
     e.preventDefault();
     if (!taskName.trim()) return;
-    addTask(taskName);
-    setTaskName("");
+    if (!user?.id) {
+      console.error("User not found. Cannot add task.");
+      return;
+    }
+    const { error } = await supabase.from("tasks").insert([
+      {
+        name: taskName,
+        completed: false,
+        user_id: user.id,
+      },
+    ]);
+    if (error) console.error("Add task failed:", error.message);
+    else {
+      setTaskName("");
+      fetchTasks();
+    }
+  };
+
+  // Toggle completed status
+  const toggleTask = async (task) => {
+    const { error } = await supabase
+      .from("tasks")
+      .update({ completed: !task.completed })
+      .eq("id", task.id)
+      .eq("user_id", user.id);
+    if (error) console.error("Toggle failed:", error.message);
+    else fetchTasks();
+  };
+
+  // Delete task
+  const deleteTask = async (taskId) => {
+    const { error } = await supabase
+      .from("tasks")
+      .delete()
+      .eq("id", taskId)
+      .eq("user_id", user.id);
+    if (error) console.error("Delete failed:", error.message);
+    else fetchTasks();
   };
 
   return (
@@ -23,12 +89,13 @@ export default function Tasks() {
       </div>
 
       <div className="tasks__content">
-        <h1>Wedding Tasks ✅</h1>
+        <h1>
+          Wedding Tasks <FiCheckSquare />
+        </h1>
         <p>
-          Keep track of what needs to be done. Add to-do lists, mark tasks as complete,
-          and stay on top of your wedding plans.
+          Keep track of what needs to be done. Add to-do lists, mark tasks as
+          complete, and stay on top of your wedding plans.
         </p>
-        <p>Planning your big day just got easier!</p>
 
         <form onSubmit={handleAddTask} className="tasks__form">
           <input
@@ -36,8 +103,11 @@ export default function Tasks() {
             placeholder="Add a new task..."
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
+            className="tasks__input"
           />
-          <button type="submit">Add Task</button>
+          <button type="submit" className="tasks__btn">
+            Add Task
+          </button>
         </form>
 
         <div className="tasks__list">
@@ -49,10 +119,21 @@ export default function Tasks() {
                 key={task.id}
                 className={`task-item ${task.completed ? "completed" : ""}`}
               >
-                <span onClick={() => toggleTask(task.id)}>
-                  {task.completed ? "✅" : "⬜"} {task.name}
+                <span onClick={() => toggleTask(task)} className="task-name">
+                  {task.completed ? (
+                    <FiCheckSquare className="icon check-icon" />
+                  ) : (
+                    <FiSquare className="icon box-icon" />
+                  )}{" "}
+                  {task.name}
                 </span>
-                <button onClick={() => deleteTask(task.id)}>🗑️</button>
+                <button
+                  onClick={() => deleteTask(task.id)}
+                  className="task-delete-btn"
+                  aria-label="Delete task"
+                >
+                  <FiTrash2 className="icon trash-icon" />
+                </button>
               </div>
             ))
           )}

@@ -1,29 +1,72 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "../supabaseClient"; // Ensure this exports `supabase` correctly
 
 const TaskContext = createContext();
 
 export function TaskProvider({ children }) {
-  const [tasks, setTasks] = useState([
-    { id: 1, name: "Book the venue", completed: true },
-    { id: 2, name: "Send invites", completed: false },
-    { id: 3, name: "Hire photographer", completed: false },
-  ]);
+  const [tasks, setTasks] = useState([]);
+  const [userId, setUserId] = useState(null);
 
-  const addTask = (name) => {
-    const newTask = { id: Date.now(), name, completed: false };
-    setTasks((prev) => [...prev, newTask]);
+  // Fetch tasks from Supabase
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      setUserId(user.id);
+
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true });
+
+      if (error) console.error("Error fetching tasks:", error);
+      else setTasks(data);
+    };
+
+    fetchTasks();
+  }, []);
+
+  // Add task
+  const addTask = async (name) => {
+    if (!userId) return;
+
+    const { data, error } = await supabase
+      .from("tasks")
+      .insert([{ name, completed: false, user_id: userId }])
+      .select()
+      .maybeSingle();
+
+    if (error) console.error("Add task error:", error);
+    else setTasks((prev) => [...prev, data]);
   };
 
-  const toggleTask = (id) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+  // Toggle task completion
+  const toggleTask = async (id) => {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+
+    const { data, error } = await supabase
+      .from("tasks")
+      .update({ completed: !task.completed })
+      .eq("id", id)
+      .select()
+      .maybeSingle();
+
+    if (error) console.error("Toggle task error:", error);
+    else {
+      setTasks((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
+      );
+    }
   };
 
-  const deleteTask = (id) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+  // Delete task
+  const deleteTask = async (id) => {
+    const { error } = await supabase.from("tasks").delete().eq("id", id);
+    if (error) console.error("Delete task error:", error);
+    else setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
   return (
@@ -33,6 +76,4 @@ export function TaskProvider({ children }) {
   );
 }
 
-// Hook to use in any component
 export const useTasks = () => useContext(TaskContext);
-export default TaskContext;

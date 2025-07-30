@@ -118,3 +118,21 @@
 .task-item button:hover {
   color: #7a1f1f;
 }
+.task-item .icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+.trash-icon {
+  color: crimson;
+}
+
+.check-icon {
+  color: seagreen;
+}
+
+.box-icon {
+  color: gray;
+}

@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "@supabase/supabase-js": "^2.52.0"
-=======
   "name": "wedding-planner",
   "private": true,
   "version": "0.0.0",
@@ -14,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/auth-js": "^2.71.1",
+    "@supabase/supabase-js": "^2.52.1",
     "chart.js": "^4.5.0",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
@@ -34,6 +32,5 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "vite": "^7.0.3"
->>>>>>> 7d16207e7b6d16ead9bea043ed905d2a2055cf33
   }
 }
