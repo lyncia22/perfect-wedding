@@ -130,6 +130,7 @@ export default function Tasks() {
                 <button
                   onClick={() => deleteTask(task.id)}
                   className="task-delete-btn"
+                  w
                   aria-label="Delete task"
                 >
                   <FiTrash2 className="icon trash-icon" />

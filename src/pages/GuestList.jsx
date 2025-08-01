@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
-import supabase from "../supabaseClient"; // Make sure this is correctly configured
+import emailjs from "@emailjs/browser";
+import supabase from "../supabaseClient";
 import "./GuestList.css";
+
+const EMAILJS_SERVICE_ID = "service_n7a0ysb";
+const EMAILJS_TEMPLATE_ID = "template_oi5om28";
+const EMAILJS_PUBLIC_KEY = "XoxEwOwH7MAe_r--f";
 
 export default function GuestList() {
   const [guestName, setGuestName] = useState("");
@@ -11,7 +16,6 @@ export default function GuestList() {
   const [guests, setGuests] = useState([]);
   const [user, setUser] = useState(null);
 
-  // Fetch logged-in user and guest list
   useEffect(() => {
     async function fetchUserAndGuests() {
       const {
@@ -49,32 +53,57 @@ export default function GuestList() {
       return;
     }
 
-    // Insert new guest row
-    const { data, error } = await supabase.from("guests").insert([
-      {
-        user_id: user.id,
-        name: guestName.trim(),
-        email: guestEmail.trim() || null,
-        phone: guestPhone.trim() || null,
-        status: guestStatus,
-        note: guestNote.trim() || null,
-        invite_sent: false,
-      },
-    ]);
+    // Insert guest
+    const { data, error } = await supabase
+      .from("guests")
+      .insert([
+        {
+          user_id: user.id,
+          name: guestName.trim(),
+          email: guestEmail.trim() || null,
+          phone: guestPhone.trim() || null,
+          status: guestStatus,
+          note: guestNote.trim() || null,
+          invite_sent: false,
+        },
+      ])
+      .select()
+      .single();
 
     if (error) {
       console.error("Error adding guest:", error);
       alert("Failed to add guest");
-    } else {
-      // Update guest list in UI immediately
-      setGuests((prev) => [data[0], ...prev]);
-      // Reset form
-      setGuestName("");
-      setGuestEmail("");
-      setGuestPhone("");
-      setGuestStatus("Pending");
-      setGuestNote("");
+      return;
     }
+
+    // Update guests list immediately
+    setGuests((prev) => [data, ...prev]);
+
+    // Send email if email provided
+    if (guestEmail.trim()) {
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            to_name: guestName,
+            to_email: guestEmail,
+            message: `Hi ${guestName}, you’ve been added to the wedding guest list! 🎉`,
+          },
+          EMAILJS_PUBLIC_KEY
+        );
+        console.log("Email sent to", guestEmail);
+      } catch (emailError) {
+        console.error("Error sending email:", emailError);
+      }
+    }
+
+    // Reset form
+    setGuestName("");
+    setGuestEmail("");
+    setGuestPhone("");
+    setGuestStatus("Pending");
+    setGuestNote("");
   };
 
   return (

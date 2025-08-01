@@ -6,41 +6,83 @@ import "./DashboardHome.css";
 
 export default function DashboardHome() {
   const [weddingDetails, setWeddingDetails] = useState(null);
-  const [guests, setGuests] = useState(50); // Replace with live guest count if needed
-  const [tasks, setTasks] = useState([
-    { id: 1, name: "Book the venue", completed: true },
-    { id: 2, name: "Send invites", completed: false },
-    { id: 3, name: "Hire photographer", completed: false },
-  ]);
-  const [vendors, setVendors] = useState(3); // Replace with live vendor count if needed
+  const [guestsCount, setGuestsCount] = useState(0);
+  const [tasks, setTasks] = useState([]);
+  const [vendorsCount, setVendorsCount] = useState(0);
   const navigate = useNavigate();
 
+  // Fetch user and all dashboard data
   useEffect(() => {
-    const fetchWeddingDetails = async () => {
-      // Replace this with actual logged-in user ID from auth system
-      const userId = "b03adbe9-f22d-4b9e-b7bf-b600e307d142";
+    const fetchDashboardData = async () => {
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser();
 
-      const { data, error } = await supabase
+      if (authError || !user) {
+        console.error("User fetch error:", authError);
+        return;
+      }
+
+      const userId = user.id;
+
+      // Fetch wedding details
+      const { data: weddingData, error: weddingError } = await supabase
         .from("wedding_details")
         .select("*")
         .eq("user_id", userId)
         .maybeSingle();
 
-      if (error) {
-        console.error("Error fetching wedding details:", error.message);
+      if (weddingError) {
+        console.error("Wedding details error:", weddingError);
       } else {
-        setWeddingDetails(data);
+        setWeddingDetails(weddingData);
+      }
+
+      // Fetch guest count
+      const { count: guestsCountResult, error: guestsError } = await supabase
+        .from("guests")
+        .select("id", { count: "exact" })
+        .eq("user_id", userId);
+
+      if (guestsError) {
+        console.error("Guests count error:", guestsError);
+      } else {
+        setGuestsCount(guestsCountResult || 0);
+      }
+
+      // Fetch tasks
+      const { data: tasksData, error: tasksError } = await supabase
+        .from("tasks")
+        .select("*")
+        .eq("user_id", userId);
+
+      if (tasksError) {
+        console.error("Tasks fetch error:", tasksError);
+      } else {
+        setTasks(tasksData || []);
+      }
+
+      // Fetch vendors count
+      const { count: vendorsCountResult, error: vendorsError } = await supabase
+        .from("vendors")
+        .select("id", { count: "exact" })
+        .eq("user_id", userId);
+
+      if (vendorsError) {
+        console.error("Vendors count error:", vendorsError);
+      } else {
+        setVendorsCount(vendorsCountResult || 0);
       }
     };
 
-    fetchWeddingDetails();
+    fetchDashboardData();
   }, []);
 
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.completed).length;
   const pendingTasks = totalTasks - completedTasks;
-  const taskProgress =
-    totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+  const taskProgress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
   return (
     <div className="dashboard">
@@ -67,7 +109,7 @@ export default function DashboardHome() {
           <div className="dashboard__card">
             <FaUserFriends className="card-icon" />
             <h2>Guests</h2>
-            <p>{guests} invited</p>
+            <p>{guestsCount} invited</p>
           </div>
         </NavLink>
 
@@ -76,9 +118,7 @@ export default function DashboardHome() {
             <FaTasks className="card-icon" />
             <h2>Tasks</h2>
             <p>{pendingTasks} pending</p>
-            {pendingTasks > 0 && (
-              <span className="card-badge">{pendingTasks}</span>
-            )}
+            {pendingTasks > 0 && <span className="card-badge">{pendingTasks}</span>}
           </div>
         </NavLink>
 
@@ -86,7 +126,7 @@ export default function DashboardHome() {
           <div className="dashboard__card">
             <FaHandshake className="card-icon" />
             <h2>Vendors</h2>
-            <p>{vendors} connected</p>
+            <p>{vendorsCount} connected</p>
           </div>
         </NavLink>
 

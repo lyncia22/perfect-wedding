@@ -1,5 +1,14 @@
 import "./Vendors.css";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { FaHandshake, FaPhoneAlt, FaTrash } from "react-icons/fa";
+import { MdOutlineAddBox } from "react-icons/md";
+
+// 🚨 Use your actual Supabase credentials here
+const supabase = createClient(
+  "https://your-project-id.supabase.co",
+  "your-public-anon-key"
+);
 
 export default function Vendors() {
   const [vendorName, setVendorName] = useState("");
@@ -7,39 +16,61 @@ export default function Vendors() {
   const [contactInfo, setContactInfo] = useState("");
   const [vendors, setVendors] = useState([]);
 
-  // Load vendors from localStorage on mount
+  // Load from Supabase
   useEffect(() => {
-    const savedVendors = localStorage.getItem("vendors");
-    if (savedVendors) setVendors(JSON.parse(savedVendors));
+    const fetchVendors = async () => {
+      const { data, error } = await supabase
+        .from("vendors")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error loading vendors:", error);
+      } else {
+        setVendors(data);
+      }
+    };
+
+    fetchVendors();
   }, []);
 
-  // Save vendors to localStorage on change
-  useEffect(() => {
-    localStorage.setItem("vendors", JSON.stringify(vendors));
-  }, [vendors]);
-
-  const handleAddVendor = (e) => {
+  // Add vendor to Supabase
+  const handleAddVendor = async (e) => {
     e.preventDefault();
+
     if (!vendorName.trim() || !serviceType || !contactInfo.trim()) {
-      alert("Please fill in all vendor details!");
+      alert("Please fill in all fields.");
       return;
     }
 
-    const newVendor = {
-      id: Date.now(),
-      name: vendorName.trim(),
-      service: serviceType,
-      contact: contactInfo.trim(),
-    };
+    const { data, error } = await supabase.from("vendors").insert([
+      {
+        name: vendorName.trim(),
+        service: serviceType,
+        contact: contactInfo.trim(),
+      },
+    ]);
 
-    setVendors([newVendor, ...vendors]);
-    setVendorName("");
-    setServiceType("");
-    setContactInfo("");
+    if (error) {
+      console.error("Error adding vendor:", error.message);
+    } else {
+      setVendors([data[0], ...vendors]);
+      setVendorName("");
+      setServiceType("");
+      setContactInfo("");
+    }
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this vendor?")) {
+  // Delete vendor from Supabase
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Delete this vendor?");
+    if (!confirm) return;
+
+    const { error } = await supabase.from("vendors").delete().eq("id", id);
+
+    if (error) {
+      console.error("Error deleting vendor:", error.message);
+    } else {
       setVendors(vendors.filter((vendor) => vendor.id !== id));
     }
   };
@@ -54,12 +85,13 @@ export default function Vendors() {
       </div>
 
       <div className="vendors__content">
-        <h1>Vendors 🤝</h1>
+        <h1>
+          Vendors <FaHandshake />
+        </h1>
         <p>
-          Manage your caterers, photographers, decorators, and more. Keep your vendor
-          list organized in one place for easy planning.
+          Manage your caterers, photographers, decorators, and more. Keep your
+          vendor list organized in one place for easy planning.
         </p>
-        <p>Find, contact, and coordinate with ease.</p>
 
         <form onSubmit={handleAddVendor} className="vendors__form">
           <input
@@ -96,22 +128,25 @@ export default function Vendors() {
             required
           />
 
-          <button type="submit">Add Vendor</button>
+          <button type="submit">
+            <MdOutlineAddBox size={20} /> Add Vendor
+          </button>
         </form>
 
         <div className="vendors__list">
           {vendors.length === 0 ? (
-            <p>No vendors added yet. Start building your dream team!</p>
+            <p>No vendors yet. Start adding your dream team.</p>
           ) : (
             vendors.map((vendor) => (
               <div key={vendor.id} className="vendor-item">
-                <strong>{vendor.name}</strong> - {vendor.service} 📞 {vendor.contact}
+                <strong>{vendor.name}</strong> - {vendor.service}{" "}
+                <FaPhoneAlt /> {vendor.contact}
                 <button
                   className="delete-btn"
                   onClick={() => handleDelete(vendor.id)}
                   aria-label={`Delete vendor ${vendor.name}`}
                 >
-                  ✖
+                  <FaTrash />
                 </button>
               </div>
             ))
