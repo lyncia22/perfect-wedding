@@ -27,7 +27,7 @@ import InspirationGallery from "./pages/InspirationGallery";
 
 // Admin Dashboard
 import AdminLayout from "./admin/AdminLayout";
-import AdminHome from "./admin/AdminHome";
+import AdminHome from "./admin/adminHome";
 import ManageWeddings from "./admin/ManageWeddings";
 import ManageVendors from "./admin/ManageVendors";
 import Analytics from "./admin/Analytics";
