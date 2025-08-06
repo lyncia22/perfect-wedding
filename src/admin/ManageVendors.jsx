@@ -1,105 +1,116 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import supabase from "../supabaseClient";
 import "./ManageVendors.css";
 
-export default function ManageVendors() {
-  const vendors = [
-    {
-      id: 1,
-      name: "Awesome Catering",
-      service: "Catering",
-      contact: "awesome@example.com",
-      image: "https://i.pinimg.com/1200x/56/1d/f0/561df0ddacb3d0ddd77ef4dfa6226c9f.jpg",
-    },
-    {
-      id: 2,
-      name: "Picture Perfect",
-      service: "Photography",
-      contact: "pp@example.com",
-      image: "https://i.pinimg.com/1200x/81/18/af/8118af29a07d8f85fb6dbbd77acb07f5.jpg",
-    },
-    {
-      id: 3,
-      name: "Floral Magic",
-      service: "Florist",
-      contact: "floral@example.com",
-      image: "https://i.pinimg.com/1200x/84/7f/fb/847ffb62c7f03386d8357b5bc4fa06dc.jpg",
-    },
-    {
-      id: 4,
-      name: "Catering Kings",
-      service: "Catering",
-      contact: "caterkings@example.com",
-      image: "https://i.pinimg.com/736x/0e/d3/30/0ed33055dbe635562c5a48239e6c454f.jpg",
-    },
-  ];
+export default function Vendors() {
+  const [vendors, setVendors] = useState([]);
+  const [form, setForm] = useState({
+    name: "",
+    service: "",
+    contact: "",
+    vendor_group: "",
+    image_url: ""
+  });
 
-  const [selectedVendor, setSelectedVendor] = useState(null);
+  // Fetch vendors
+  useEffect(() => {
+    fetchVendors();
+  }, []);
 
-  const handleDelete = (id) => {
-    alert(`Delete vendor with ID: ${id}`);
+  const fetchVendors = async () => {
+    const { data, error } = await supabase
+      .from("vendors")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) console.error("Fetch error:", error);
+    else setVendors(data);
   };
 
-  // Group vendors by service
-  const grouped = vendors.reduce((acc, vendor) => {
-    acc[vendor.service] = acc[vendor.service] || [];
-    acc[vendor.service].push(vendor);
-    return acc;
-  }, {});
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleAddVendor = async (e) => {
+    e.preventDefault();
+    const { data, error } = await supabase.from("vendors").insert([form]);
+
+    if (error) {
+      console.error("Insert error:", error);
+    } else {
+      setForm({
+        name: "",
+        service: "",
+        contact: "",
+        vendor_group: "",
+        image_url: ""
+      });
+      fetchVendors(); // refresh
+    }
+  };
+
+  const handleDelete = async (id) => {
+    await supabase.from("vendors").delete().eq("id", id);
+    fetchVendors(); // refresh
+  };
 
   return (
-    <div className="manage-vendors">
-      <h1>Manage Vendors</h1>
-      <p>Click "View" to see vendor details.</p>
+    <div className="vendors-container">
+      <form onSubmit={handleAddVendor} className="vendor-form">
+        <h2>Add New Vendor</h2>
+        <input
+          type="text"
+          name="name"
+          placeholder="Vendor Name"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="service"
+          placeholder="Service"
+          value={form.service}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="contact"
+          placeholder="Contact Info"
+          value={form.contact}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="vendor_group"
+          placeholder="Vendor Group"
+          value={form.vendor_group}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="image_url"
+          placeholder="Image URL"
+          value={form.image_url}
+          onChange={handleChange}
+        />
+        <button type="submit">Add Vendor</button>
+      </form>
 
-      {Object.keys(grouped).map((category) => (
-        <div key={category} className="vendor-group">
-          <h2>{category}</h2>
-          <div className="vendor-table-wrapper">
-            <table className="vendor-table">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Contact</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {grouped[category].map((vendor) => (
-                  <tr key={vendor.id}>
-                    <td>
-                      <img src={vendor.image} alt={vendor.name} className="vendor-img" />
-                    </td>
-                    <td>{vendor.name}</td>
-                    <td>{vendor.contact}</td>
-                    <td className="action-buttons">
-                      <button className="view-btn" onClick={() => setSelectedVendor(vendor)}>
-                        View
-                      </button>
-                      <button className="delete-btn" onClick={() => handleDelete(vendor.id)}>
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      <div className="vendor-grid">
+        {vendors.map((vendor) => (
+          <div key={vendor.id} className="vendor-card">
+            <img src={vendor.image_url || "https://via.placeholder.com/150"} alt={vendor.name} />
+            <h3>{vendor.name}</h3>
+            <p>{vendor.service}</p>
+            <p>{vendor.contact}</p>
+            <p><strong>Group:</strong> {vendor.vendor_group}</p>
+            <button onClick={() => handleDelete(vendor.id)}>❌ Delete</button>
           </div>
-        </div>
-      ))}
-
-      {/* Modal */}
-      {selectedVendor && (
-        <div className="modal-overlay" onClick={() => setSelectedVendor(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <img src={selectedVendor.image} alt={selectedVendor.name} />
-            <h3>{selectedVendor.name}</h3>
-            <p><strong>Service:</strong> {selectedVendor.service}</p>
-            <p><strong>Contact:</strong> {selectedVendor.contact}</p>
-            <button onClick={() => setSelectedVendor(null)}>Close</button>
-          </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 }

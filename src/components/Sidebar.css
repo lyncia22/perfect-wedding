@@ -89,3 +89,33 @@
   margin-right: 10px;
   font-size: 1.2rem;
 }
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes logout to the bottom */
+  height: 100vh;
+  padding: 1rem;
+}
+
+.sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  color: #f44336;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.sidebar__logout:hover {
+  background: rgba(244, 67, 54, 0.1);
+  border-radius: 5px;
+}

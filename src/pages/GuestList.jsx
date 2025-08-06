@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import supabase from "../supabaseClient";
 import "./GuestList.css";
-
+ 
 const EMAILJS_SERVICE_ID = "service_n7a0ysb";
 const EMAILJS_TEMPLATE_ID = "template_oi5om28";
 const EMAILJS_PUBLIC_KEY = "XoxEwOwH7MAe_r--f";

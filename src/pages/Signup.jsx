@@ -34,41 +34,38 @@ export default function Signup() {
     setErrors({});
 
     try {
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
       });
+
       if (signUpError) {
         setErrors({ general: signUpError.message });
         setLoading(false);
         return;
       }
-      // Wait for email confirmation if necessary
-      const user = authData?.user ?? authData?.session?.user;
-      if (!user) {
-        alert("Signup successful! Please check your email to confirm your account.");
-        setLoading(false);
-        return;
+
+      // Insert profile regardless of confirmation
+      const userId = data?.user?.id ?? data?.session?.user?.id;
+      if (userId) {
+        const { error: profileError } = await supabase.from("profiles").insert([
+          {
+            id: userId,
+            username: fullName.trim(),
+            role,
+          },
+        ]);
+
+        if (profileError) {
+          setErrors({ general: "Error creating profile: " + profileError.message });
+          setLoading(false);
+          return;
+        }
       }
-      // Insert profile with matching user id
-      const { error: profileError } = await supabase.from("profiles").insert([
-        {
-          id: user.id,
-          username: fullName.trim(),
-          role,
-        },
-      ]);
-      if (profileError) {
-        setErrors({ general: "Error creating profile: " + profileError.message });
-        setLoading(false);
-        return;
-      }
-      // Save to AuthContext/localStorage
-      login({ id: user.id }, role);
-      // Redirect based on role
-      if (role === "admin") navigate("/admin-dashboard");
-      else if (role === "vendor") navigate("/vendor-dashboard");
-      else navigate("/dashboard");
+
+      // Show confirmation and redirect to login
+      alert("Signup successful! Please check your email to confirm your account.");
+      navigate("/login");
     } catch {
       setErrors({ general: "Unexpected error during signup. Please try again." });
     } finally {

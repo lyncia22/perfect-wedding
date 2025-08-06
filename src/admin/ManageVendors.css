@@ -1,145 +1,92 @@
-.manage-vendors {
-  margin-left: 230px;
+.vendors-container {
   padding: 2rem;
-  font-family: "Poppins", sans-serif;
-  color: #333;
+  margin-left: 230px; /* To clear sidebar space */
+  max-width: calc(100% - 230px);
+  box-sizing: border-box;
 }
 
-.manage-vendors h1 {
-  font-size: 2rem;
-  color: #5a2a83;
-  margin-bottom: 0.5rem;
-}
-
-.manage-vendors p {
-  margin-bottom: 1.5rem;
-  color: #666;
-}
-
-.vendor-group {
+/* Form styling */
+.vendor-form {
+  display: grid;
+  gap: 1rem;
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
   margin-bottom: 2rem;
 }
 
-.vendor-group h2 {
-  color: #3f1d59;
-  margin-bottom: 1rem;
-  border-left: 5px solid #5a2a83;
-  padding-left: 1rem;
+.vendor-form input,
+.vendor-form button {
+  padding: 0.7rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
-.vendor-table-wrapper {
-  overflow-x: auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(90, 42, 131, 0.1);
-}
-
-.vendor-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 600px;
-}
-
-.vendor-table th,
-.vendor-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-.vendor-table th {
-  background-color: #f6f1fb;
-  color: #5a2a83;
-  font-weight: 600;
-}
-
-.vendor-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.view-btn,
-.delete-btn {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  border: none;
-  border-radius: 8px;
+.vendor-form button {
+  background-color: #5a2a83; /* deep purple */
+  color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.view-btn {
-  background-color: #5a2a83;
-  color: white;
+.vendor-form button:hover {
+  background-color: #3f1d59; /* darker purple */
 }
 
-.view-btn:hover {
-  background-color: #3f1d59;
-}
-
-.delete-btn {
-  background-color: #e74c3c;
-  color: white;
-}
-
-.delete-btn:hover {
-  background-color: #c0392b;
-}
-
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+/* Cards in a row with wrapping */
+.vendor-grid {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
-.modal {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 400px;
-  width: 100%;
+/* Each vendor card */
+.vendor-card {
+  flex: 0 1 220px; /* fixed width but flexible */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
   text-align: center;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(90, 42, 131, 0.1); /* subtle purple shadow */
+  transition: transform 0.2s ease;
 }
 
-.modal img {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 1rem;
+.vendor-card:hover {
+  transform: translateY(-5px);
 }
 
-.modal h3 {
-  margin: 0.5rem 0;
-  color: #5a2a83;
+.vendor-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 0.8rem;
 }
 
-.modal p {
-  margin: 0.2rem 0;
-  color: #555;
-}
-
-.modal button {
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
+/* Delete button purple style */
+.vendor-card button {
   background-color: #5a2a83;
   color: white;
   border: none;
-  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.vendor-card button:hover {
+  background-color: #3f1d59;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .vendors-container {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  .vendor-grid {
+    justify-content: center;
+  }
 }

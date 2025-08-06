@@ -1,16 +1,47 @@
+import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import supabase from "../supabaseClient";
 import "./Analytics.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function Analytics() {
+  const [stats, setStats] = useState({ weddings: 0, vendors: 0, messages: 0 });
+
+  useEffect(() => {
+    async function fetchStats() {
+      const { data, error } = await supabase
+        .from("dashboard_stats")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error fetching stats:", error);
+      } else if (data) {
+        setStats({
+          weddings: data.weddings,
+          vendors: data.vendors,
+          messages: data.messages,
+        });
+      }
+    }
+
+    fetchStats();
+
+    // Optionally auto-refresh every 30 seconds:
+    const interval = setInterval(fetchStats, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   const data = {
     labels: ["Weddings", "Vendors", "Messages"],
     datasets: [
       {
-        label: "2025 Stats",
-        data: [85, 40, 1230],
+        label: "Live Stats",
+        data: [stats.weddings, stats.vendors, stats.messages],
         backgroundColor: ["#5a2a83", "#ffdd57", "#7e57c2"],
         borderRadius: 10,
         barThickness: 40,
@@ -56,15 +87,15 @@ export default function Analytics() {
       <div className="analytics-cards">
         <div className="analytics-card">
           <h2>Active Weddings</h2>
-          <p>85</p>
+          <p>{stats.weddings}</p>
         </div>
         <div className="analytics-card">
           <h2>Active Vendors</h2>
-          <p>40</p>
+          <p>{stats.vendors}</p>
         </div>
         <div className="analytics-card">
           <h2>Messages Sent</h2>
-          <p>1,230</p>
+          <p>{stats.messages}</p>
         </div>
       </div>
 
